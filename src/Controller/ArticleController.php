@@ -37,6 +37,7 @@ class ArticleController extends AbstractController
     public function list()
     {
         $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
+
         return $this->render('article/list.html.twig', ['articles' => $articles]);
     }
 
