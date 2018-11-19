@@ -87,10 +87,11 @@ class BlogController extends AbstractController
             ->getDoctrine()
             ->getRepository(Category::class)
             ->findOneByName($category);
+
         $articles = $this
             ->getDoctrine()
             ->getRepository(Article::class)
-            ->findAll();
+            ->findBy(array ('category'=> $category),  array ('id' =>'ASC'), 3);
 
 
         return $this->render
