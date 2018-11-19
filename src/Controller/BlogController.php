@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +17,7 @@ class BlogController extends AbstractController
      * @Route("/", name="blog_index")
      * @return Response A response instance
      */
-        public function index() : Response
+    public function index() : Response
     {
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
@@ -32,7 +34,6 @@ class BlogController extends AbstractController
             ['articles' => $articles]
         );
     }
-
 
     /**
      * Getting a article with a formatted slug for title
@@ -76,4 +77,29 @@ class BlogController extends AbstractController
     }
 
 
+    /**
+     * @Route("/category/{category}", name="blog_show_category")
+     * @return Response A response instance
+     */
+    public function showByCategory(string $category) : Response
+    {
+        $category = $this
+            ->getDoctrine()
+            ->getRepository(Category::class)
+            ->findOneByName($category);
+        $articles = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
+
+
+        return $this->render
+            ('blog/category.html.twig',
+            [
+                'articles' => $articles,
+                'category'=> $category
+            ]
+
+        );
+    }
 }
