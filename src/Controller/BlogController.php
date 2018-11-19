@@ -7,7 +7,12 @@ use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Form\CategoryType;
 use App\Entity\Article;
+use App\Form\ArticleSearchType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class BlogController extends AbstractController
 {
@@ -17,7 +22,7 @@ class BlogController extends AbstractController
      * @Route("/", name="blog_index")
      * @return Response A response instance
      */
-    public function index() : Response
+    public function index(Request $request) : Response
     {
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
@@ -27,12 +32,34 @@ class BlogController extends AbstractController
             throw $this->createNotFoundException(
                 'No article found in article\'s table.'
             );
+        }else {
+            $defaultData = array('searchField' => 'Type your research here');
+            $form = $this->createFormBuilder($defaultData)
+                ->add('searchField', TextType::class)
+                ->getForm();
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted()) {
+                $data = $form->getData();
+                $searchField = $data['searchField'];
+                $res = $this->getDoctrine()->getRepository(Article::class)->createQueryBuilder('a')
+                    ->where('a.title LIKE :searchTerm')->setParameter('searchTerm', '%'. $searchField .'%' )
+                    ->getQuery()->getResult();
+                $articles = $res;
+                // $data contient les données du $_POST
+                // Faire une recherche dans la BDD avec les infos de $data...
+
+            }
         }
 
-        return $this->render(
-            'blog/index.html.twig',
-            ['articles' => $articles]
-        );
+            return $this->render(
+                'blog/index.html.twig', [
+                    'articles' => $articles,
+                    'form' => $form->createView(),
+                ]
+            );
+
     }
 
     /**
@@ -40,7 +67,7 @@ class BlogController extends AbstractController
      *
      * @param string $slug The slugger
      *
-     * @Route("/{slug<^[a-z0-9-]+$>}",
+     * @Route("/article/{slug<^[a-z0-9-]+$>}",
      *     defaults={"slug" = null},
      *     name="blog_show")
      *  @return Response A response instance

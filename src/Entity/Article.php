@@ -19,7 +19,7 @@ class Article
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $title;
+    protected $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
