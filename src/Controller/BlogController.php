@@ -32,33 +32,33 @@ class BlogController extends AbstractController
             throw $this->createNotFoundException(
                 'No article found in article\'s table.'
             );
-        }else {
-            $defaultData = array('searchField' => 'Type your research here');
-            $form = $this->createFormBuilder($defaultData)
-                ->add('searchField', TextType::class)
-                ->getForm();
+        }
+        $defaultData = array('searchField' => 'Type your research here');
+        $form = $this->createFormBuilder($defaultData)
+            ->add('searchField', TextType::class)
+            ->getForm();
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted()) {
-                $data = $form->getData();
-                $searchField = $data['searchField'];
-                $res = $this->getDoctrine()->getRepository(Article::class)->createQueryBuilder('a')
-                    ->where('a.title LIKE :searchTerm')->setParameter('searchTerm', '%'. $searchField .'%' )
-                    ->getQuery()->getResult();
-                $articles = $res;
-                // $data contient les données du $_POST
-                // Faire une recherche dans la BDD avec les infos de $data...
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $searchField = $data['searchField'];
+            $res = $this->getDoctrine()->getRepository(Article::class)->createQueryBuilder('a')
+                ->where('a.title LIKE :searchTerm')->setParameter('searchTerm', '%'. $searchField .'%' )
+                ->getQuery()->getResult();
+            $articles = $res;
+            // $data contient les données du $_POST
+            // Faire une recherche dans la BDD avec les infos de $data...
 
-            }
         }
 
-            return $this->render(
-                'blog/index.html.twig', [
-                    'articles' => $articles,
-                    'form' => $form->createView(),
-                ]
-            );
+
+        return $this->render(
+            'blog/index.html.twig', [
+                'articles' => $articles,
+                'form' => $form->createView(),
+            ]
+        );
 
     }
 

@@ -3,20 +3,52 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Form\ArticleType;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/article", name="article")
+     * @Route("/articles", name="article")
      */
     public function index()
     {
         return $this->render('article/index.html.twig', [
             'controller_name' => 'ArticleController',
+        ]);
+    }
+
+    /**
+     * @Route("/article/add", name="add_article")
+     */
+    public function add(Request $request) : Response
+    {
+        $articles = new Article();
+        $form = $this->createForm(ArticleType::class, $articles);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($data);
+            $em->flush();
+            return $this->redirectToRoute('add_article');
+            // $data contient les données du $_POST
+            // Faire une recherche dans la BDD avec les infos de $data...
+        }
+
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
+
+        return $this->render('article/add.html.twig', [
+            'form' => $form->createView(),
+            'articles' => $articles,
         ]);
     }
 

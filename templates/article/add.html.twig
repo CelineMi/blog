@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello !{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.category) }}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <ul>
+        {% for article in articles %}
+            <li><h2>{{ article.title }}</h2></li>
+            <p>{{ article.content }}</p>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
