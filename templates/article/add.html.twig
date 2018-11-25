@@ -16,6 +16,7 @@
         {% for article in articles %}
             <li><h2>{{ article.title }}</h2></li>
             <p>{{ article.content }}</p>
+            <p>catégorie : {{ article.category.name }}</p>
         {% endfor %}
     </ul>
 
