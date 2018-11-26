@@ -1,0 +1,7 @@
+<h1>nom du tag : {{ tags.owner.name }}</h1>
+
+{% for article in tags %}
+<h4>titre de l'article : {{ article.title }}</h4>
+<p>{{ article.content }}</p>
+    <a href="{{ path('article_show', {'id': article.id }) }}"><p>lien vers l'article </p></a>
+{% endfor %}

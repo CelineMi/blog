@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,5 +73,16 @@ class ArticleController extends AbstractController
 
         return $this->render('article/category.html.twig', ['articles' => $articles]);
     }
+
+    /**
+     *@Route("/tag/{name}", name="tag")
+     */
+    public function tag(Tag $tag) : Response
+    {
+        $tags = $tag->getArticles();
+
+        return $this->render('article/tag.html.twig', ['tags' => $tags]);
+    }
+
 
 }

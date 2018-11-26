@@ -1,1 +1,12 @@
- <h1>{{article.title}}</h1>
+ <h2>{{article.title}}</h2>
+ <p>{{article.content}}</p>
+
+ <strong>Tags :</strong>
+ <ul>
+     {% for tag in article.tags %}
+         <li>{{ tag.name }} </li>
+         <a href="{{ path('tag', {'name': tag.name}) }}"><p>lien vers le tag </p></a>
+     {% else %}
+         <li>No tags for this article</li>
+     {% endfor %}
+ </ul>
