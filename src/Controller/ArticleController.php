@@ -75,7 +75,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     *@Route("/tag/{name}", name="tag")
+     *@Route("/blog/tag/{name}", name="show_tag_by_name")
      */
     public function tag(Tag $tag) : Response
     {
