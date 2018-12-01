@@ -105,7 +105,7 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/category/{category}", name="blog_show_category")
+     * @Route("/exCategory/{exCategory}", name="blog_show_category")
      * @return Response A response instance
      */
     public function showByCategory(string $category) : Response
@@ -118,21 +118,21 @@ class BlogController extends AbstractController
         $articles = $this
             ->getDoctrine()
             ->getRepository(Article::class)
-            ->findBy(array ('category'=> $category),  array ('id' =>'ASC'), 3);
+            ->findBy(array ('exCategory'=> $category),  array ('id' =>'ASC'), 3);
 
 
         return $this->render
-            ('blog/category.html.twig',
+            ('blog/exCategory.html.twig',
             [
                 'articles' => $articles,
-                'category'=> $category
+                'exCategory'=> $category
             ]
 
         );
     }
 
     /**
-     * @Route("/category/{name}/all", name="blog_show_all_category")
+     * @Route("/exCategory/{name}/all", name="blog_show_all_category")
      * @return Response A response instance
      *
      */
