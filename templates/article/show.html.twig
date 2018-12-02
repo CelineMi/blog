@@ -1,12 +1,19 @@
- <h2>{{article.title}}</h2>
- <p>{{article.content}}</p>
+{% extends 'base.html.twig' %}
 
- <strong>Tags :</strong>
- <ul>
-     {% for tag in article.tags %}
-         <li>{{ tag.name }} </li>
-         <a href="{{ path('tag', {'name': tag.name}) }}"><p>lien vers le tag </p></a>
-     {% else %}
-         <li>No tags for this article</li>
-     {% endfor %}
- </ul>
+{% block body %}
+    <h1>article {{ article.id }}</h1>
+    <h2> {{article.title}}</h2>
+    <h6>Article category : {{ article.category.name }}</h6>
+    <p>{{article.content}}</p>
+
+    <strong>Tags :</strong>
+    <ul>
+        {% for tag in article.tags %}
+            <li>{{ tag.name }} </li>
+            {#   <a href="{{ path('tag', {'name': tag.name}) }}"><p>lien vers le tag </p></a>#}
+        {% else %}
+            <li>No tags for this article</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Index{% endblock %}
-
-{% block stylesheets %}{% endblock %}
 
 {% block body %}
 
-    {{ form_start(form) }}
-    {{ form_row(form.searchField) }}
-    <button type="submit" name="btnSearch">Rechercher</button>
-    {{ form_end(form) }}
+    <div class="searchForm">
+        <h4 style="margin-top: 70px">Research an article</h4>
+        {{ form_start(form) }}
+        {{ form_row(form.searchField) }}
+        <button type="submit" name="btnSearch">Search</button>
+        {{ form_end(form) }}
+    </div>
 
     <h1>All articles from article s table : </h1>
     {% for article in articles %}

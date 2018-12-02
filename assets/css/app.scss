@@ -1,0 +1,33 @@
+// assets/css/global.scss
+
+// customize some Bootstrap variables
+$primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background-color:whitesmoke;
+    margin-top: 70px;
+}
+
+h1 {
+    font-family: Arial;
+    font-max-size: medium;
+      color: darkgrey;
+    text-align: center;
+}
+
+h2 {
+  font-family: Arial;
+  font-max-size: xx-small;
+  color: dimgrey;
+}
+
+.searchForm {
+  background-color: lightblue;
+}
+
+h6{
+  color: lightsteelblue;
+}
