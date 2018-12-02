@@ -8,12 +8,8 @@
 
     <strong>Tags :</strong>
     <ul>
-        {% for tag in article.tags %}
-            <li>{{ tag.name }} </li>
-            {#   <a href="{{ path('tag', {'name': tag.name}) }}"><p>lien vers le tag </p></a>#}
-        {% else %}
-            <li>No tags for this article</li>
-        {% endfor %}
+            <li>{{ article.tag.name }} </li>
+
     </ul>
 
 {% endblock %}

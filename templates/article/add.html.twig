@@ -4,13 +4,16 @@
 
 {% block body %}
 
+    <div class="searchForm">
+
     {{ form_start(form) }}
     {{ form_row(form.title) }}
     {{ form_row(form.content) }}
     {{ form_row(form.category) }}
-
+    {{ form_row(form.tag) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
+    </div>
 
     <ul>
         {% for article in articles %}

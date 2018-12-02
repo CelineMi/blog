@@ -35,14 +35,9 @@ class Article
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="articles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="article")
      */
-    private $tags;
-
-    public function __construct()
-    {
-        $this->tags = new ArrayCollection();
-    }
+    private $tag;
 
 
     public function getId(): ?int
@@ -86,32 +81,17 @@ class Article
         return $this;
     }
 
-    /**
-     * @return Collection|Tag[]
-     */
-    public function getTags(): Collection
+    public function getTag(): ?Tag
     {
-        return $this->tags;
+        return $this->tag;
     }
 
-    public function addTag(Tag $tag): self
+    public function setTag(?Tag $tag): self
     {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-            $tag->addArticle($this);
-        }
+        $this->tag = $tag;
 
         return $this;
     }
 
-    public function removeTag(Tag $tag): self
-    {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag);
-            $tag->removeArticle($this);
-        }
-
-        return $this;
-    }
 
 }

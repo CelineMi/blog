@@ -105,7 +105,7 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/exCategory/{exCategory}", name="blog_show_category")
+     * @Route("/Category/{Category}", name="blog_show_category")
      * @return Response A response instance
      */
     public function showByCategory(string $category) : Response
@@ -132,7 +132,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/exCategory/{name}/all", name="blog_show_all_category")
+     * @Route("/Category/{name}/all", name="blog_show_all_category")
      * @return Response A response instance
      *
      */
