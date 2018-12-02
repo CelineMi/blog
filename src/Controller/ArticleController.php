@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-// use App\Entity\Tag;
+use App\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\ArticleType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\Slugify;
 
 
 class ArticleController extends AbstractController
@@ -31,7 +32,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/add", name="add_article")
      */
-    public function add(Request $request) : Response
+    public function add(Request $request, Slugify $slugify) : Response
     {
         $articles = new Article();
         $form = $this->createForm(ArticleType::class, $articles);
@@ -46,11 +47,15 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('add_article');
             // $data contient les données du $_POST
             // Faire une recherche dans la BDD avec les infos de $data...
+            //generer le slug du titre
+            $slug = $slugify->generate($article->getTitle());
+            $article->setSlug($slug);
         }
 
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();
+
 
         return $this->render('article/add.html.twig', [
             'form' => $form->createView(),
