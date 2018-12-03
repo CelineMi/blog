@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Article;
 use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,6 +15,7 @@ class TagType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('article', EntityType::class, array ('class' => Article::class, 'choice_label' => 'title', 'multiple' => true))
         ;
     }
 

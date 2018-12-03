@@ -28,9 +28,15 @@ class Tag
      */
     private $article;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="Tag")
+     */
+    private $articles;
+
     public function __construct()
     {
         $this->article = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,5 +85,13 @@ class Tag
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
     }
 }

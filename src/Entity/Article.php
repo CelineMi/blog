@@ -39,6 +39,11 @@ class Article
      */
     private $tag;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="articles")
+     */
+    private $Tag;
+
 
     public function getId(): ?int
     {
