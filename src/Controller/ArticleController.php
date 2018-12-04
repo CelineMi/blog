@@ -42,14 +42,14 @@ class ArticleController extends AbstractController
         {
             $data = $form->getData();
             $em = $this->getDoctrine()->getManager();
+            //generer le slug du titre
+            $slug = $slugify->generate($articles->getTitle());
+            $articles->setSlug($slug);
             $em->persist($data);
             $em->flush();
             return $this->redirectToRoute('add_article');
             // $data contient les données du $_POST
             // Faire une recherche dans la BDD avec les infos de $data...
-            //generer le slug du titre
-            $slug = $slugify->generate($article->getTitle());
-            $article->setSlug($slug);
         }
 
         $articles = $this->getDoctrine()
