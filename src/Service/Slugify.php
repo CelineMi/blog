@@ -31,7 +31,7 @@ class Slugify
         $input = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $input);
 
         // -- Returns the slug
-        $input = strtolower(trim(str_replace(array_keys($table), array_values($table), $input)));
+        $input = strtolower(trim(strip_tags(str_replace(array_keys($table), array_values($table), $input))));
         return $input;
     }
 }

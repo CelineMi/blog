@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\Category1Type;
 use App\Repository\CategoryRepository;
+use App\Service\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/new", name="category_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Slugify $slugify): Response
     {
         $category = new Category();
         $form = $this->createForm(Category1Type::class, $category);
@@ -34,6 +35,9 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            //generer le slug du titre
+            $slug = $slugify->generate($category->getName());
+            $category->setSlug($slug);
             $em->persist($category);
             $em->flush();
 
@@ -57,12 +61,15 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="category_edit", methods="GET|POST")
      */
-    public function edit(Request $request, Category $category): Response
+    public function edit(Request $request, Category $category, Slugify $slugify): Response
     {
         $form = $this->createForm(Category1Type::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //generer le slug du titre
+            $slug = $slugify->generate($category->getName());
+            $category->setSlug($slug);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('category_edit', ['id' => $category->getId()]);
