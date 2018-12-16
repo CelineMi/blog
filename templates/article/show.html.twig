@@ -8,8 +8,9 @@
 
     <strong>Tags :</strong>
     <ul>
+        {% if article.tag %}
             <li>{{ article.tag.name }} </li>
-
+        {% endif %}
     </ul>
 
 {% endblock %}

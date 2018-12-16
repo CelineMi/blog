@@ -27,7 +27,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/new", name="category_new", methods="GET|POST")
      */
-    public function new(Request $request, Slugify $slugify): Response
+    public function new(Request $request): Response
     {
         $category = new Category();
         $form = $this->createForm(Category1Type::class, $category);
@@ -35,9 +35,6 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            //generer le slug du titre
-            $slug = $slugify->generate($category->getName());
-            $category->setSlug($slug);
             $em->persist($category);
             $em->flush();
 
@@ -61,15 +58,12 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="category_edit", methods="GET|POST")
      */
-    public function edit(Request $request, Category $category, Slugify $slugify): Response
+    public function edit(Request $request, Category $category): Response
     {
         $form = $this->createForm(Category1Type::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //generer le slug du titre
-            $slug = $slugify->generate($category->getName());
-            $category->setSlug($slug);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('category_edit', ['id' => $category->getId()]);
